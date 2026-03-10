@@ -1,7 +1,7 @@
 # Global Product Workflow — TerraGrow
 
 > **Un systeme de specification produit de niveau industriel.**
-> Du brief CPO aux issues Linear — deux workflows distincts, 17 experts IA, zero ambiguite.
+> Du brief CPO aux issues Linear — deux workflows distincts, 4 + 17 experts IA, zero ambiguite.
 
 ---
 
@@ -10,8 +10,8 @@
 `global-product-workflow` automatise la production de specifications produit chez TerraGrow. Il transforme un brief CPO en deux livrables actionnables : une **spec designer** et une **spec metier developpeur**, chacune accompagnee d'issues Linear structurees et pret-a-pousser.
 
 ```
-BRIEF-DESIGN.md  →  /design-specs  →  Spec Designer  +  Issues Design   (3 min)
-BRIEF-METIER.md  →  /specs-metier  →  Spec Dev       +  Issues Dev       (10 min)
+BRIEF-DESIGN.md  →  /design-specs  →  4 experts challengent  →  Spec Designer  +  Issues Design   (5-8 min)
+BRIEF-METIER.md  →  /specs-metier  →  17 experts challengent →  Spec Dev       +  Issues Dev       (10 min)
 ```
 
 Deux briefs distincts. Deux skills distincts. Deux specs distinctes. Un seul systeme.
@@ -30,14 +30,22 @@ flowchart LR
         direction TB
         B1["📄 BRIEF-DESIGN.md\nVision, probleme, scope\n(pas de Figma)"]
         S1["/design-specs"]
-        O1A["📐 Spec Designer\n5 sections"]
-        O1B["📋 Issues Linear Design\nUS + criteres"]
+        subgraph CH1["Phase challenge — 4 experts"]
+            direction LR
+            X1["📊 Expert-Comptable"]
+            X2["🧑‍💼 Conseiller Gestion"]
+            X3["🌱 Ing. Agronome"]
+            X4["🖥️ UX Designer"]
+        end
+        SYN1["Synthese : decisions\ntensions resolues\nhypotheses"]
+        O1A["📐 Spec Designer\n5 sections enrichies"]
+        O1B["📋 Issues Linear Design\nUS sourcees + criteres"]
     end
 
     subgraph W2["WORKFLOW 2 — Metier"]
         direction TB
         B2["📄 BRIEF-METIER.md\nFigma valides + regles\n+ contraintes techniques"]
-        S2["/specs-metier\n17 experts IA"]
+        S2["/specs-metier\n17 experts IA — 5 phases"]
         O2A["📐 Spec Metier Dev\n6 sections"]
         O2B["📋 Issues Linear Dev\nRegles + contrats API"]
     end
@@ -47,8 +55,10 @@ flowchart LR
 
     CPO --> B1
     B1 --> S1
-    S1 --> O1A
-    S1 --> O1B
+    S1 --> CH1
+    CH1 --> SYN1
+    SYN1 --> O1A
+    SYN1 --> O1B
     O1A --> DES
     O1B --> DES
     DES -->|Figma valides| B2
@@ -66,6 +76,7 @@ flowchart LR
 
 > **Quand ?** Le design n'existe pas encore. Le CPO donne sa vision au designer.
 > **Input :** `BRIEF-DESIGN.md` — 10 min a remplir, pas de Figma, pas de regles metier.
+> **Fonctionnement :** 4 experts challengent le brief avant toute redaction. La spec est enrichie et sourcee.
 
 ### Ce que contient `BRIEF-DESIGN.md`
 
@@ -81,22 +92,68 @@ Questions ouvertes        → zones d'incertitude pour le skill
 Inspiration (optionnel)   → references visuelles
 ```
 
+### Les 4 experts — Phase challenge
+
+```mermaid
+flowchart TD
+    IN["📄 BRIEF-DESIGN.md"]
+
+    subgraph CH["Phase 1 — Challenge parallele"]
+        direction LR
+        C1["📊 Expert-Comptable Agricole\nTerminologie comptable correcte ?\nFormules implicites valides ?\nRisque confusion gestion / compta ?"]
+        C2["🧑‍💼 Conseiller de Gestion\nVrai probleme quotidien ?\nMoment exact dans le workflow ?\nFrictions adoption previsibles ?"]
+        C3["🌱 Ingenieur Agronome\nUnites et cultures correctes ?\nLogique saisonniere respectee ?\nReferences CER/ARVALIS bien utilisees ?"]
+        C4["🖥️ UX / Product Designer\nHierarchie d'information coherente ?\nEtats tous identifies ?\nPatterns Design System respectes ?"]
+    end
+
+    SYN["Phase 2 — Synthese\nDecisions prises · Tensions resolues\nHypotheses signalees · Questions bloquantes"]
+
+    OUT1["📐 Spec Design enrichie\n5 sections — US sourcees"]
+    OUT2["📋 Issues Linear Design"]
+
+    IN --> CH
+    CH --> SYN
+    SYN --> OUT1
+    SYN --> OUT2
+```
+
+Chaque expert produit : **enrichissements** (ce qui manque), **alertes** (ce qui risque d'etre faux), **niveau de confiance**. Les tensions entre experts sont resolues en Phase 2 avant toute redaction.
+
 ### Sequence d'execution
 
 ```mermaid
 sequenceDiagram
     participant CPO
     participant skill as /design-specs
+    participant E1 as Expert-Comptable
+    participant E2 as Conseiller Gestion
+    participant E3 as Ing. Agronome
+    participant E4 as UX Designer
     participant out as Output
 
     CPO->>skill: /design-specs + BRIEF-DESIGN.md
-    skill->>skill: Analyse contexte et probleme
-    skill->>skill: Genere User Stories ancrees metier
-    skill->>skill: Construit User Journey ecran par ecran
-    skill->>skill: Definit structure + composants Figma
-    skill->>skill: Formate les issues Linear
-    skill->>out: DOCUMENT 1 — Spec Design (5 sections)
-    skill->>out: DOCUMENT 2 — Issues Linear Design
+
+    Note over skill,E4: Phase 0 — Analyse du brief
+    skill->>skill: Identifie zones floues et hypotheses
+
+    Note over skill,E4: Phase 1 — Challenge multi-experts (parallele)
+    skill->>E1: Challenge : coherence comptable + terminologie
+    skill->>E2: Challenge : valeur reelle + adoption conseiller
+    skill->>E3: Challenge : coherence agronomique + saisonnalite
+    skill->>E4: Challenge : hierarchie info + etats + patterns DS
+    E1-->>skill: Enrichissements + Alertes + Niveau confiance
+    E2-->>skill: Enrichissements + Alertes + Niveau confiance
+    E3-->>skill: Enrichissements + Alertes + Niveau confiance
+    E4-->>skill: Enrichissements + Alertes + Niveau confiance
+
+    Note over skill,E4: Phase 2 — Synthese
+    skill->>skill: Resout tensions entre experts
+    skill->>skill: Consolide decisions + hypotheses
+    skill-->>CPO: Questions bloquantes (si applicable)
+
+    Note over skill,E4: Phase 3-4 — Redaction enrichie
+    skill->>out: DOCUMENT 1 — Spec Design enrichie (5 sections)
+    skill->>out: DOCUMENT 2 — Issues Linear Design (US sourcees)
     out-->>CPO: Propose export Word (.docx)
 ```
 
@@ -281,7 +338,11 @@ sequenceDiagram
 
     CPO->>B1: Remplit le brief design (10 min)
     CPO->>DS: /design-specs [brief]
-    DS-->>CPO: Spec Design + Issues Design (3 min)
+    DS->>DS: Phase 0 : analyse brief
+    DS->>DS: Phase 1 : 4 experts challengent en parallele
+    DS->>DS: Phase 2 : synthese tensions + decisions
+    DS->>DS: Phase 3-4 : redaction spec + issues
+    DS-->>CPO: Spec Design enrichie + Issues Design (5-8 min)
     CPO->>DES: Transmet spec + issues
     DES->>DES: Cree les interfaces Figma
     DES-->>CPO: Alerte : Figma prets + URL
@@ -399,8 +460,12 @@ Ouvrez `BRIEF-DESIGN.md`. Remplissez chaque champ avec des elements concrets et 
 ```
 
 Output dans le chat :
-- `DOCUMENT 1 — SPEC DESIGN` : contexte, user stories, journey, composants
+- `PHASE 1` : contributions des 4 experts (enrichissements + alertes + niveau de confiance)
+- `PHASE 2` : synthese — decisions prises, tensions resolues, hypotheses
+- `DOCUMENT 1 — SPEC DESIGN` : contexte, user stories sourcees, journey, composants
 - `DOCUMENT 2 — ISSUES LINEAR` : issues pret a coller dans Linear
+
+> Si des questions bloquantes emergent de la Phase 1, le skill s'arrete et attend votre reponse avant de continuer.
 
 Repondez "oui" pour l'export Word automatique.
 
@@ -439,11 +504,12 @@ Relire les deux documents. Ajuster si necessaire. Pousser les issues sur Linear 
 
 | | Avant | Avec global-product-workflow |
 |---|---|---|
-| **Spec designer** | 2-4h manuelle | 10 min brief + 3 min generation |
+| **Spec designer** | 2-4h manuelle | 10 min brief + 5-8 min generation (4 experts) |
 | **Spec metier** | 4-8h + allers-retours | 15 min brief + 10 min generation |
 | **Issues Linear** | Creees manuellement, souvent incompletes | Generees, structurees, pret-a-pousser |
 | **User stories** | Oubliees ou vagues | Systematiques, ancrees dans le metier agricole |
-| **Validation metier** | Dependante d'une seule personne | 17 experts valident chaque spec |
+| **Validation design** | Dependante d'une seule personne | 4 experts challengent avant redaction (design-specs) |
+| **Validation metier** | Dependante d'une seule personne | 17 experts valident chaque spec (specs-metier) |
 | **Formules et regles** | Implicites, non documentees | Explicites, sourcees, defendables |
 | **Risques regression** | Detectes en dev (tard) | Detectes en spec (tot) |
 
@@ -466,4 +532,4 @@ Relire les deux documents. Ajuster si necessaire. Pousser les issues sur Linear 
 
 ---
 
-*TerraGrow Product — global-product-workflow v2.0.0*
+*TerraGrow Product — global-product-workflow v3.0.0*

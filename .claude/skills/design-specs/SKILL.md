@@ -215,6 +215,6 @@ Si oui, utilise le skill `technical-writer-specs` pour la conversion.
 ## References
 
 - [Exemple : Dashboard Marges par Culture](examples/dashboard-marges-culture.md)
-- [Template brief CPO](../../../BRIEF-CPO.md)
+- [Template brief design](../../../BRIEF-DESIGN.md)
 
 $ARGUMENTS

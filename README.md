@@ -247,24 +247,43 @@ DEFINITION OF DONE
 
 ---
 
-## Template Brief CPO
+## Templates Brief CPO
 
-Le template `BRIEF-CPO.md` structure le brief en 10 champs :
+Deux templates distincts selon le flow.
+
+### `BRIEF-DESIGN.md` — pour `/design-specs`
+
+Le design n'existe pas encore. Le CPO donne sa vision au designer.
 
 ```
 Feature        → Nom + date + version cible
 Probleme       → Situation actuelle + impact mesure
-Solution       → Ce qu'on veut construire + impact attendu
-Utilisateurs   → Principal + frequence + contexte d'usage
-Peut faire     → Liste des actions possibles (max 8)
+Solution       → Ce qu'on veut construire (2-4 phrases, pas technique)
+Utilisateur    → Role + frequence + contexte d'usage
+Peut faire     → Actions possibles (max 8, verbe + objet)
 Ne fait pas    → Hors scope + raisons
-Donnees        → Disponibles vs. manquantes
-Figma          → URL + screens (pour /specs-metier)
-Questions      → Zones d'incertitude
-Contraintes    → Techniques, metier, calendaires
+Donnees        → Disponibles vs. manquantes (vision macro)
+Questions      → Zones d'incertitude pour le skill
+Inspiration    → References visuelles (optionnel)
 ```
 
-Un brief bien rempli = une spec generee du premier coup.
+### `BRIEF-METIER.md` — pour `/specs-metier`
+
+Le design est valide. Le CPO briefe les 17 experts avec le Figma et les contraintes techniques.
+
+```
+Feature        → Nom + reference au brief design
+Figma          → URL + liste des screens + delta vs brief initial
+Utilisateur    → Role + impact metier attendu
+Regles metier  → Formules, seuils, regles domaine agricole (connus)
+Perimetre      → Ce qu'on fait / ne fait pas (confirme)
+Donnees        → Entites disponibles en base + sources externes + modules
+Contraintes    → Performances, compatibilite, calendaire
+Questions      → Ce que les experts doivent trancher
+Decisions      → Ce qui est arrete et ne doit pas etre rediscute
+```
+
+Un brief bien rempli = une spec generee du premier coup, sans aller-retour.
 
 ---
 

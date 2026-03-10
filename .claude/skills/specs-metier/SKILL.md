@@ -311,7 +311,7 @@ Si oui, utilise le skill `technical-writer-specs` pour la conversion.
 ## References
 
 - [Exemple : Feature Marges par Culture](references/examples/marges-par-culture.md)
-- [Template brief CPO](../../../BRIEF-CPO.md)
+- [Template brief metier](../../../BRIEF-METIER.md)
 - [Phases du workflow](references/workflow-phases.md)
 
 $ARGUMENTS
